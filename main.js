@@ -2,7 +2,7 @@ const { Plugin } = require('obsidian');
 
 module.exports = class FileTreeFolderNotePlugin extends Plugin {
   async onload() {
-    console.log('%c[Folder Note Visualizer]%c Initializing Style Override Engine...', 'color: #eccc68; font-weight: bold;', 'color: default;');
+    console.log('%c[Folder Note Visualizer]%c Initializing Outer Container Engine...', 'color: #eccc68; font-weight: bold;', 'color: default;');
 
     // Inject the required custom layout and pseudo-element style layers into the DOM head
     this.injectStyles();
@@ -21,7 +21,7 @@ module.exports = class FileTreeFolderNotePlugin extends Plugin {
     styleEl.id = 'obsidian-file-tree-folder-note';
 
     styleEl.innerHTML = `
-      /* 1. COMPLETELY STRIP THE THEME UNDERLINE RULES */
+      /* 1. COMPLETELY STRIP THE DEFAULT THEME UNDERLINE RULES */
       .folder-note-underline .has-folder-note .nav-folder-title-content,
       .has-folder-note .nav-folder-title-content,
       .has-folder-note .tree-item-inner {
@@ -30,43 +30,43 @@ module.exports = class FileTreeFolderNotePlugin extends Plugin {
         text-decoration-property: none !important;
       }
 
-      /* 2. ESTABLISH TRACKING BOUNDARIES ON THE TITLE CONTENT WRAPPER */
-      .has-folder-note .nav-folder-title-content,
-      .has-folder-note .tree-item-inner {
+      /* 2. ESTABLISH AN ABSOLUTE STACKING BOUNDARY ON THE TREE ITEM SELF CONTAINER ROW */
+      .tree-item-self.has-folder-note {
         position: relative !important;
-        /* Generate soft left clearance room so our absolute dot floats beautifully */
-        padding-left: 1.25em !important; 
-        transition: color 0.2s ease-in-out !important;
       }
 
-      /* 3. INJECT THE COLORED DOT INDICATOR AS A PSEUDO-ELEMENT CHILD */
-      .has-folder-note .nav-folder-title-content::before,
-      .has-folder-note .tree-item-inner::before {
+      /* 3. INJECT THE COLORED DOT OVERLAY AS A CHILD OF THE OUTER CONTAINER ELEMENT */
+      .tree-item-self.has-folder-note::before {
         content: '' !important;
         position: absolute !important;
-        left: 0.15em !important; /* Positions the dot cleanly left of the text characters */
+        
+        /* Positions the dot perfectly inside the left margin gutter zone */
+        left: 10px !important; 
         top: 50% !important;
-        transform: translateY(-50%) !important; /* Centers dot perfectly vertically on the text line */
+        transform: translateY(-50%) !important; /* Centers dot perfectly vertically on the row line */
+        
         width: 6px !important;
         height: 6px !important;
         border-radius: 50% !important;
         
-        /* Using currentColor makes the dot automatically track alpha-hue color parameters */
+        /* Dynamically mirrors whatever alphabetical spectrum hue your text folder is displaying */
         background-color: currentColor !important; 
         
-        pointer-events: none !important; /* Prevents the overlay from blocking mouse row selection clicks */
+        /* Explicitly prevents the overlay from blocking mouse row selection clicks */
+        pointer-events: none !important; 
+        
         opacity: 1 !important;
-        transition: transform 0.2s ease-in-out !important;
+        z-index: 20 !important;
+        transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease !important;
       }
 
-      /* 4. HOVER INTERACTION: Smoothly scales up when hovering over the folder title container */
-      .tree-item-self.has-folder-note:hover .nav-folder-title-content::before,
-      .tree-item-self.has-folder-note:hover .tree-item-inner::before {
-        transform: translateY(-50%) scale(1.3) !important;
+      /* 4. HOVER INTERACTION: Lightens or scales the dot indicator smoothly on mouseover of the nav-folder row */
+      .tree-item-self.has-folder-note:hover::before {
+        transform: translateY(-50%) scale(1.4) !important;
       }
     `;
 
     document.head.appendChild(styleEl);
-    console.log('[Folder Note Visualizer] Global CSS override layouts successfully registered.');
+    console.log('[Folder Note Visualizer] Global container-level pseudo indicators successfully registered.');
   }
 };
