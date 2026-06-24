@@ -1,0 +1,11 @@
+{
+    "id": "file-tree-folder-note",
+    "name": "!File Tree Folder Note Visualizer",
+    "version": "1.0.0",
+    "minAppVersion": "1.0.0",
+    "description": "Removes the default folder-note text underlines and replaces them with a colored dot indicator positioned to the left of the title text.",
+    "author": "AI Collaborator",
+    "authorUrl": "https://obsidian.md",
+    "isDesktopOnly": false
+  }
+  
