@@ -1,0 +1,21 @@
+{
+  "name": "file-tree-folder-note",
+  "displayName": "File Tree Folder Note Visualizer",
+  "version": "1.0.0",
+  "description": "Removes the default folder-note text underlines and replaces them with a colored dot indicator positioned to the left of the title text.",
+  "author": "markcrobbins",
+  "publisher": "markcrobbins",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/markcrobbins2112/file-tree-folder-note.git"
+  },
+  "bugs": {
+    "url": "https://github.com/markcrobbins2112/project/file-tree-folder-note"
+  },
+  "homepage": "https://github.com/markcrobbins2112/file-tree-folder-note#readme"
+}
